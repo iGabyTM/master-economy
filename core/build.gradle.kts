@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":api"))
-    implementation(libs.configurate)
-    implementation(libs.jedis)
+    api(project(":api"))
+    api(libs.configurate)
+    api(libs.jedis)
 }
