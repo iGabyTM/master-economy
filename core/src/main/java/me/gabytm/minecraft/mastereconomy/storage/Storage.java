@@ -10,6 +10,12 @@ import java.util.UUID;
 public abstract class Storage {
 
     @ApiStatus.Internal
+    public abstract boolean enable();
+
+    @ApiStatus.Internal
+    public abstract void disable();
+
+    @ApiStatus.Internal
     public abstract void updateBalance(@NotNull final UUID uuid, @NotNull String economy, final double balance);
 
     @ApiStatus.Internal
