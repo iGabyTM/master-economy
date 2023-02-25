@@ -9,6 +9,6 @@ public interface Platform {
 
     @NotNull Path getDataFolderPath();
 
-    @NotNull Logger getLogger();
+    @NotNull Logger logger();
 
 }

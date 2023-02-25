@@ -2,7 +2,6 @@ package me.gabytm.minecraft.mastereconomy.storage.impl;
 
 import me.gabytm.minecraft.mastereconomy.api.platform.Platform;
 import me.gabytm.minecraft.mastereconomy.storage.Storage;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
@@ -47,10 +46,10 @@ public class SQLiteStorage extends Storage {
 
             this.connection = DriverManager.getConnection("jdbc:sqlite://" + databaseFilePath.toAbsolutePath());
         } catch (SQLException e) {
-            platform.getLogger().error("[SQLite] Could not connect to database", e);
+            platform.logger().error("[SQLite] Could not connect to database", e);
             return false;
         } catch (IOException e) {
-            platform.getLogger().error("[SQLite] Could not create or open " + databaseFilePath.toAbsolutePath(), e);
+            platform.logger().error("[SQLite] Could not create or open " + databaseFilePath.toAbsolutePath(), e);
             return false;
         }
 
@@ -65,8 +64,22 @@ public class SQLiteStorage extends Storage {
             statement.close();
             return true;
         } catch (SQLException e) {
-            platform.getLogger().error("[SQLite] Could not create the table", e);
+            platform.logger().error("[SQLite] Could not create the table", e);
             return false;
+        }
+    }
+
+    @Override
+    public boolean enable() {
+        return connect();
+    }
+
+    @Override
+    public void disable() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            platform.logger().error("[SQLite] Could not close the connection with the database", e);
         }
     }
 
@@ -107,7 +120,7 @@ public class SQLiteStorage extends Storage {
 
             return Collections.emptyMap();
         } catch (SQLException e) {
-            platform.getLogger().error("[SQLite] Could not ger user's balance (" + uuid + ')', e);
+            platform.logger().error("[SQLite] Could not ger user's balance (" + uuid + ')', e);
             return null;
         }
     }
