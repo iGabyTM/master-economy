@@ -2,8 +2,10 @@ package me.gabytm.minecraft.mastereconomy.storage.impl;
 
 import me.gabytm.minecraft.mastereconomy.api.platform.Platform;
 import me.gabytm.minecraft.mastereconomy.storage.Storage;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -30,7 +32,6 @@ public class SQLiteStorage extends Storage {
     public SQLiteStorage(@NotNull final Platform platform) {
         this.platform = platform;
         this.databaseFilePath = platform.getDataFolderPath().resolve("database.sqlite.db");
-        connect();
     }
 
     private boolean connect() {
@@ -46,10 +47,10 @@ public class SQLiteStorage extends Storage {
 
             this.connection = DriverManager.getConnection("jdbc:sqlite://" + databaseFilePath.toAbsolutePath());
         } catch (SQLException e) {
-            e.printStackTrace();
+            platform.getLogger().error("[SQLite] Could not connect to database", e);
             return false;
         } catch (IOException e) {
-            e.printStackTrace();
+            platform.getLogger().error("[SQLite] Could not create or open " + databaseFilePath.toAbsolutePath(), e);
             return false;
         }
 
@@ -64,7 +65,7 @@ public class SQLiteStorage extends Storage {
             statement.close();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            platform.getLogger().error("[SQLite] Could not create the table", e);
             return false;
         }
     }
@@ -106,7 +107,7 @@ public class SQLiteStorage extends Storage {
 
             return Collections.emptyMap();
         } catch (SQLException e) {
-            e.printStackTrace();
+            platform.getLogger().error("[SQLite] Could not ger user's balance (" + uuid + ')', e);
             return null;
         }
     }
@@ -127,7 +128,7 @@ public class SQLiteStorage extends Storage {
                     final Path path = Paths.get(classLoader.getResource("sql/sqlite/" + it.name().toLowerCase()).toURI());
                     it.query = new String(Files.readAllBytes(path));
                 } catch (IOException | URISyntaxException e) {
-                    e.printStackTrace();
+                    LoggerFactory.getLogger(Query.class).error("Could not load query " + it.name(), e);
                 }
             }
         }

@@ -6,6 +6,7 @@ bungee = "1.19-R0.1-SNAPSHOT"
 configurate = "4.0.0"
 jedis = "4.3.0"
 jetbrains_annotations = "24.0.0"
+log4j = "2.20.0"
 
 [libraries]
 # Server API
@@ -15,3 +16,4 @@ bungee = { module = "net.md-5:bungeecord-api", version.ref = "bungee" }
 configurate = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
 jedis = { module = "redis.clients:jedis", version.ref = "jedis" }
 jetbrains_annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains_annotations" }
+log4j = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
