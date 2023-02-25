@@ -7,5 +7,14 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":core"))
     compileOnly(libs.bungee)
+}
+
+tasks {
+    register<Copy>("buildToServer") {
+        group = "custom"
+        from(shadowJar)
+        into("../testServer/bungee/plugins")
+    }
 }
