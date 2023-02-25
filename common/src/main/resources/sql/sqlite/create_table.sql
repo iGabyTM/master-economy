@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS balance
+(
+    uuid    VARCHAR(36) NOT NULL PRIMARY KEY,
+    economy VARCHAR(50) NOT NULL PRIMARY KEY,
+    amount  NUMERIC     NOT NULL
+);
