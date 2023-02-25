@@ -6,5 +6,5 @@ dependencyResolutionManagement {
 rootProject.name = "master-economy"
 
 include(":api")
-include(":common")
+include(":core")
 include(":platform-bungee")
