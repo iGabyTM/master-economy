@@ -1,6 +1,12 @@
 package me.gabytm.minecraft.mastereconomy.cache;
 
-public abstract class Cache {
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * @param <C> config
+ */
+public abstract class Cache<C> {
+
+    public abstract boolean connect(@NotNull final C config);
 
 }
