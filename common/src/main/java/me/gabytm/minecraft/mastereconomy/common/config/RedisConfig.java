@@ -1,4 +1,4 @@
-package me.gabytm.minecraft.mastereconomy.config;
+package me.gabytm.minecraft.mastereconomy.common.config;
 
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import redis.clients.jedis.Protocol;

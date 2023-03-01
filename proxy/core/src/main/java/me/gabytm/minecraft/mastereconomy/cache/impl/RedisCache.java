@@ -4,7 +4,6 @@ import me.gabytm.minecraft.mastereconomy.cache.Cache;
 import me.gabytm.minecraft.mastereconomy.config.RedisConfig;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.jetbrains.annotations.NotNull;
-import redis.clients.jedis.Connection;
 import redis.clients.jedis.JedisPooled;
 import redis.clients.jedis.Protocol;
 
