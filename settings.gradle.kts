@@ -6,5 +6,5 @@ dependencyResolutionManagement {
 rootProject.name = "master-economy"
 
 include(":api")
-include(":core")
-include(":platform-bungee")
+include(":proxy:core", ":proxy:bungee")
+include(":spigot")

@@ -1,6 +1,7 @@
 [versions]
 # Server API
 bungee = "1.19-R0.1-SNAPSHOT"
+spigot = "1.19.3-R0.1-SNAPSHOT"
 
 # Libraries
 configurate = "4.0.0"
@@ -12,6 +13,7 @@ sqlite = "3.41.0.0"
 [libraries]
 # Server API
 bungee = { module = "net.md-5:bungeecord-api", version.ref = "bungee" }
+spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 
 # Libraries
 configurate = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
