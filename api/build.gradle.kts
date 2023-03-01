@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    compileOnlyApi(libs.log4j)
+    compileOnlyApi(libs.slf4j)
 }

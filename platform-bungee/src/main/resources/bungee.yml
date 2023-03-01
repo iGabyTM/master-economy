@@ -1,0 +1,4 @@
+name: MasterEconomyBungee
+version: '${version}'
+main: me.gabytm.minecraft.mastereconomy.platform.bungee.MasterEconomyBungee
+author: GabyTM

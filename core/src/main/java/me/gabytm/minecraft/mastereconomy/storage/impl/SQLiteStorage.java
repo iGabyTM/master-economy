@@ -6,11 +6,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class SQLiteStorage extends Storage {
 
@@ -44,7 +47,11 @@ public class SQLiteStorage extends Storage {
                 Files.createFile(databaseFilePath);
             }
 
-            this.connection = DriverManager.getConnection("jdbc:sqlite://" + databaseFilePath.toAbsolutePath());
+            Class.forName("org.sqlite.JDBC");
+            this.connection = DriverManager.getConnection("jdbc:sqlite:" + databaseFilePath.toAbsolutePath());
+        } catch (ClassNotFoundException e) {
+            platform.logger().error("[SQLite] Could not find driver", e);
+            return false;
         } catch (SQLException e) {
             platform.logger().error("[SQLite] Could not connect to database", e);
             return false;
@@ -77,6 +84,10 @@ public class SQLiteStorage extends Storage {
     @Override
     public void disable() {
         try {
+            if (connection == null || connection.isClosed()) {
+                return;
+            }
+
             connection.close();
         } catch (SQLException e) {
             platform.logger().error("[SQLite] Could not close the connection with the database", e);
@@ -137,10 +148,13 @@ public class SQLiteStorage extends Storage {
             final ClassLoader classLoader = Query.class.getProtectionDomain().getClassLoader();
 
             for (Query it : values()) {
-                try {
-                    final Path path = Paths.get(classLoader.getResource("sql/sqlite/" + it.name().toLowerCase()).toURI());
-                    it.query = new String(Files.readAllBytes(path));
-                } catch (IOException | URISyntaxException e) {
+                try (
+                        final InputStream in = classLoader.getResourceAsStream("sql/sqlite/" + it.name().toLowerCase() + ".sql");
+                        final Reader reader = new InputStreamReader(in);
+                        final BufferedReader bufferedReader = new BufferedReader(reader);
+                ) {
+                    it.query = bufferedReader.lines().collect(Collectors.joining());
+                } catch (IOException e) {
                     LoggerFactory.getLogger(Query.class).error("Could not load query " + it.name(), e);
                 }
             }
