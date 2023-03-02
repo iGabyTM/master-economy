@@ -10,8 +10,8 @@ public class RedisConfig {
     private String host = Protocol.DEFAULT_HOST;
     private int port = Protocol.DEFAULT_PORT;
     private int timeout = Protocol.DEFAULT_TIMEOUT;
-    private String user;
-    private String password;
+    private String user = "username";
+    private String password = "password";
     private boolean ssl = true;
 
     public String getHost() {
