@@ -15,6 +15,6 @@ tasks {
     register<Copy>("buildToServer") {
         group = "custom"
         from(shadowJar)
-        into("../testServer/bungee/plugins")
+        into("../../testServer/bungee/plugins")
     }
 }
