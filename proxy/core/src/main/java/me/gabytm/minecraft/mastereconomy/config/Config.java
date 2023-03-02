@@ -3,10 +3,11 @@ package me.gabytm.minecraft.mastereconomy.config;
 import me.gabytm.minecraft.mastereconomy.common.config.RedisConfig;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
+@SuppressWarnings({"FieldMayBeFinal", "unused"})
 @ConfigSerializable
 public class Config {
 
-    private Cache cache;
+    private Cache cache = new Cache();
 
     public Cache cache() {
         return cache;
@@ -15,7 +16,7 @@ public class Config {
     @ConfigSerializable
     public static class Cache {
 
-        private RedisConfig redis;
+        private RedisConfig redis = new RedisConfig();
 
         public RedisConfig getRedis() {
             return redis;
