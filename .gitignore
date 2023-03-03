@@ -1,6 +1,10 @@
 .gradle/
-.idea/
 build/
 testServer/
 
+# IntellIJ stuff
 *.iml
+.idea/
+
+# Docker stuff
+master_economy/
