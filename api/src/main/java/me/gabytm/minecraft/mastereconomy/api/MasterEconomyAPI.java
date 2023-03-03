@@ -16,6 +16,8 @@ public interface MasterEconomyAPI {
 
     double getBalance(@NotNull final UUID uuid, @NotNull String economy);
 
-    @Nullable Map<@NotNull String, @NotNull Double> getBalances(@Nullable final UUID uuid);
+    @Nullable Map<@NotNull String, @NotNull Double> getBalances(@NotNull final UUID uuid);
+
+    void setBalance(@NotNull final UUID uuid, @NotNull final String economy, final double balance);
 
 }
