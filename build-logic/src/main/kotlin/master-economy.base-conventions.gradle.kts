@@ -16,6 +16,10 @@ dependencies {
 }
 
 tasks {
+    java {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+    }
+
     compileJava {
         options.encoding = "UTF-8"
         options.compilerArgs.add("-parameters")
