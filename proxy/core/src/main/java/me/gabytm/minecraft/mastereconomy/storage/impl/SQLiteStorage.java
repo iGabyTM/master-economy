@@ -111,25 +111,44 @@ public class SQLiteStorage extends Storage {
     }
 
     @Override
+    public @Nullable Double getBalance(@NotNull UUID uuid, @NotNull String economy) {
+        if (!connect()) {
+            return null;
+        }
+
+        try (final PreparedStatement query = Query.SELECT_ONE.prepare(connection)) {
+            query.setString(1, uuid.toString());
+            query.setString(2, economy);
+            final ResultSet result = query.executeQuery();
+
+            if (result.next()) {
+                return result.getDouble("amount");
+            }
+
+            return 0.0;
+        } catch (SQLException e) {
+            platform.logger().error("[SQLite] Could not ger user's balance (" + uuid + ')', e);
+            return null;
+        }
+    }
+
+    @Override
     public @Nullable Map<@NotNull String, @NotNull Double> getUserBalances(@NotNull UUID uuid) {
         if (!connect()) {
             return null;
         }
 
-        try (final PreparedStatement query = Query.SELECT.prepare(connection)) {
+        try (final PreparedStatement query = Query.SELECT_ALL.prepare(connection)) {
+            query.setString(1, uuid.toString());
             final ResultSet result = query.executeQuery();
 
-            if (result.next()) {
-                final Map<String, Double> balances = new HashMap<>();
+            final Map<String, Double> balances = new HashMap<>();
 
-                while (result.next()) {
-                    balances.put(result.getString("economy"), result.getDouble("amount"));
-                }
-
-                return balances;
+            while (result.next()) {
+                balances.put(result.getString("economy"), result.getDouble("amount"));
             }
 
-            return Collections.emptyMap();
+            return balances;
         } catch (SQLException e) {
             platform.logger().error("[SQLite] Could not ger user's balance (" + uuid + ')', e);
             return null;
@@ -140,7 +159,8 @@ public class SQLiteStorage extends Storage {
 
         CREATE_TABLE,
         INSERT,
-        SELECT;
+        SELECT_ALL,
+        SELECT_ONE;
 
         private String query;
 
