@@ -8,6 +8,7 @@ import me.gabytm.minecraft.mastereconomy.common.redis.ProxyMessenger;
 import org.jetbrains.annotations.NotNull;
 import redis.clients.jedis.JedisPooled;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class ProxyMessengerImpl extends ProxyMessenger {
@@ -56,6 +57,11 @@ public class ProxyMessengerImpl extends ProxyMessenger {
 
             case Channel.BALANCE_REQUEST: {
                 final UUID uuid = UUID.fromString(parts[0]);
+
+                for (final Map.Entry<String, Double> balance : api.getBalances(uuid).entrySet()) {
+                    broadcastBalance(parts[0], balance.getKey(), Constant.DECIMAL_FORMAT.format(balance.getValue()));
+                }
+                break;
             }
 
             case Channel.BALANCE_UPDATE: {
