@@ -1,4 +1,3 @@
 SELECT amount
 FROM balance
-WHERE uuid = ?
-  AND economy = ?;
+WHERE uuid = ? AND economy = ?;
