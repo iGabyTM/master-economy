@@ -127,7 +127,7 @@ public class SQLiteStorage extends Storage {
 
             return 0.0;
         } catch (SQLException e) {
-            platform.logger().error("[SQLite] Could not ger user's balance (" + uuid + ')', e);
+            platform.logger().error("[SQLite] Could not get " + uuid + "'s " + economy + " balance", e);
             return null;
         }
     }
@@ -150,7 +150,7 @@ public class SQLiteStorage extends Storage {
 
             return balances;
         } catch (SQLException e) {
-            platform.logger().error("[SQLite] Could not ger user's balance (" + uuid + ')', e);
+            platform.logger().error("[SQLite] Could not get " + uuid + "'s balances", e);
             return null;
         }
     }
