@@ -41,6 +41,10 @@ public class MasterEconomyAPIImpl implements MasterEconomyAPI {
     @Blocking
     @Override
     public double getBalance(@NotNull final UUID uuid, @NotNull final String economy) {
+        if (getEconomy(economy) == null) {
+            return 0.0d;
+        }
+
         final String cached = cacheManager.getBalance(uuid.toString(), economy);
 
         if (cached != null) {
@@ -58,10 +62,10 @@ public class MasterEconomyAPIImpl implements MasterEconomyAPI {
 
     @Blocking
     @Override
-    public @Nullable Map<@NotNull String, @NotNull Double> getBalances(@NotNull final UUID uuid) {
+    public @NotNull Map<@NotNull String, @NotNull Double> getBalances(@NotNull final UUID uuid) {
         final Map<String, Double> map = new HashMap<>();
 
-        for (Economy economy : getEconomies()) {
+        for (final Economy economy : getEconomies()) {
             map.put(economy.getName(), getBalance(uuid, economy.getName()));
         }
 
