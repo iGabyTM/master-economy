@@ -1,10 +1,11 @@
 volumes:
-  data:
+  redis:
 
 services:
   redis:
     image: redis:latest
+    command: /bin/sh -c "redis-server --requirepass test_password"
     volumes:
-      - data:/data
+      - redis:/var/lib/redis/data
     ports:
       - 6379:6379
